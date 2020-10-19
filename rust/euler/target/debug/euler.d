@@ -1,0 +1,1 @@
+D:\Documents\Coding\GitHub\Euler\rust\euler\target\debug\euler.exe: D:\Documents\Coding\GitHub\Euler\rust\euler\src\lib.rs D:\Documents\Coding\GitHub\Euler\rust\euler\src\main.rs D:\Documents\Coding\GitHub\Euler\rust\euler\src\p001.rs

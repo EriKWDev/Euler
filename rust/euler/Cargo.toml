@@ -1,0 +1,11 @@
+[package]
+name = "euler"
+version = "0.1.0"
+authors = ["EriKWDev <ErikWDev@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "problems"
+path = "src/lib.rs"
+
+[dependencies]

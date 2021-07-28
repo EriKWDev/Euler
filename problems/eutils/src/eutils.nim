@@ -150,3 +150,21 @@ proc isPalindrome*(word: string): bool {.memoize.} =
   return true
 
 proc isPalindrome*[T](n: T): bool = isPalindrome($n)
+
+
+proc collatz*(n: int): int {.memoize.} =
+  if n <= 1:
+    return 0
+
+  if n mod 2 == 0:
+    result = 1 + collatz(n div 2)
+  else:
+    result = 1 + collatz(3 * n + 1)
+
+
+proc factorial*(n: int64): int64 {.memoize.} =
+  result = 1
+  for i in 2..n:
+    result *= i
+
+proc factorial*(n: SomeInteger): int64 = factorial(n.int64)

@@ -92,3 +92,14 @@ suite "Euler Utils Test Suite":
     check isPalindrome("worddrow") == true
     check isPalindrome("1234554321") == true
     check isPalindrome("123454321") == true
+
+  test "Collatz":
+    check collatz(13) == 9
+    check collatz(301) == 16
+    check collatz(1005) == 67
+
+  test "Factorial":
+    check factorial(0) == 1
+    check factorial(5) == 120
+    check factorial(1) == 1
+    check factorial(2) == 2

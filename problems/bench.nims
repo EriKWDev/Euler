@@ -4,8 +4,6 @@ import strformat
 
 proc main() =
   withDir(thisDir()):
-    echo "Hello, World!"
-
     var files: seq[string]
 
     for i in 0..999:

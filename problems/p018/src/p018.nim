@@ -17,102 +17,39 @@ const data = """
 
 import strutils, strformat
 
-const N = data.splitLines()[^1].splitWhitespace().len() * 2
+
+const N = len(data.splitLines())
 
 type
-  PyramidGrid* = array[N div 2, array[N + 1, int]]
-
-  PyramidNode* = ref object of RootObj
-    value*: int
-    left*: PyramidNode
-    right*: PyramidNode
+  ValueGrid* = array[N, array[N, int]]
 
 
-proc newPyramidGrid*(data: string): PyramidGrid =
-  for y, row in result:
+proc `$`(grid: ValueGrid): string =
+  for y, row in grid:
     for x, value in row:
-      result[y][x] = -1
+      result &= &"{value: ^5}"
+    result &= "\n"
+
+proc main() =
+  var grid: ValueGrid
 
   var y = 0
   for line in data.splitLines():
-    let valueStrings = line.splitWhitespace()
     var x = 0
-
-    for valueString in valueStrings:
-      result[y][x*2 + N div 2 - y] = parseInt(valueString)
+    for value in line.splitWhitespace():
+      grid[y][x] = parseInt(value)
 
       inc x
     inc y
 
-proc `$`*(grid: PyramidGrid): string =
-  for y, row in grid:
-    for x, value in row:
-      let p =
-        if value > -1:
-          $value
-        else:
-          " "
+  for y in countdown(high(grid) - 1, 0):
+    for x, value in grid[y]:
+      let
+        left = grid[y+1][x]
+        right = grid[y+1][x+1]
+      grid[y][x] = max(value + left, value +  right)
 
-      result &= &"{p:^3}"
-    result &= "\n"
-
-proc getStartingPosition*(grid: PyramidGrid): tuple[x, y: int] =
-  result.x = -1
-  result.y = 0
-
-  for x, value in grid[0]:
-    if value > -1:
-      result.x = x
-      break
-
-
-proc newPyramidNode*(grid: PyramidGrid, x, y: int = 0): PyramidNode =
-  new(result)
-  result.value = grid[y][x]
-
-  # echo &"x: {x}, y: {y}, value: {result.value}"
-  if y + 2 > N div 2:
-    result.left = nil
-    result.right = nil
-    return
-
-  result.left = newPyramidNode(grid, x - 1, y + 1)
-  result.right = newPyramidNode(grid, x + 1, y + 1)
-
-proc `$`*(pyramid: PyramidNode): string = $pyramid.value
-
-
-proc toSum*(nodes: seq[PyramidNode]): int =
-  for node in nodes:
-    result = result + node.value
-
-proc findBestPath(self: PyramidNode): seq[PyramidNode] =
-  if self.left == nil or self.right == nil:
-    result.add(self)
-  else:
-    let
-      r = self.right.findBestPath()
-      l = self.left.findBestPath()
-      rs = r.toSum()
-      ls = l.toSum()
-
-    if ls > rs:
-      result &= self & l
-    elif rs >= ls:
-      result &= self & r
-
-proc main() =
-  let numberGrid = newPyramidGrid(data)
-  echo numberGrid
-
-  let
-    startingPos = numberGrid.getStartingPosition()
-    pyramid = newPyramidNode(numberGrid, startingPos.x, startingPos.y)
-
-  let bestPath = pyramid.findBestPath()
-  echo bestPath, " => ", bestPath.toSum()
-
-
+  echo grid[0][0]
 
 when isMainModule:
   main()

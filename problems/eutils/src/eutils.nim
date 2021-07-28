@@ -3,7 +3,8 @@ import
   tables,
   math,
   macros,
-  algorithm
+  algorithm,
+  intsets
 
 macro memoize*(e) =
   template memo(n, nT, returnT, procName, procBody) =
@@ -68,6 +69,15 @@ iterator primeNumbers*(range: Slice[int]): int =
     yield primeNumber(i)
 
 
+proc triangleNumber*(n: int): int {.memoize.}  =
+  for i in 0..n:
+    result = result + i
+
+iterator triangleNumbers*(range: Slice[int]): int =
+  for i in range:
+    yield triangleNumber(i)
+
+
 proc primeFactors*(n: int64): seq[int] {.memoize.}  =
   var current = n
 
@@ -82,6 +92,53 @@ proc primeFactors*(n: int64): seq[int] {.memoize.}  =
     inc i
 
 proc primeFactors*(n: SomeInteger): seq[int] = primeFactors(n.int64)
+
+
+iterator choose*[T](a: openarray[T], num_choose: int): seq[T] =
+  var
+    chosen = newSeqOfCap[T](num_choose)
+    i = 0
+    iStack = newSeqOfCap[int](num_choose)
+
+  while true:
+    if len(chosen) == num_choose:
+      yield chosen
+      discard chosen.pop()
+      i = iStack.pop() + 1
+
+    elif i != len(a):
+      chosen.add(a[i])
+      iStack.add(i)
+      inc i
+
+    elif len(i_stack) > 0:
+      discard chosen.pop()
+      i = iStack.pop() + 1
+
+    else:
+      break
+
+
+proc factors*(n: int32): seq[int] {.memoize.} =
+  let pfs = primeFactors(n)
+
+  var resultSet: IntSet
+
+  resultSet.incl(1)
+  resultSet.incl(n)
+
+  for i in 1..len(pfs):
+    for p in choose(pfs, i):
+      var prod = 1
+      for num in p:
+        prod *= num
+
+      resultSet.incl(prod)
+
+  for n in resultSet.items():
+    result.add(n)
+
+proc factors*(n: SomeInteger): seq[int] = factors(n.int32)
 
 
 proc isPalindrome*(word: string): bool {.memoize.} =

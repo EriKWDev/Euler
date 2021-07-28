@@ -47,12 +47,39 @@ suite "Euler Utils Test Suite":
       check prime == correct[i]
       inc i
 
+  test "Triangle Number Generator":
+    let correct = @[0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55]
+
+    for i, n in correct:
+      check triangleNumber(i) == n
+
+    var i = 2
+    for triangle in triangleNumbers(i..i+2):
+      check triangle == correct[i]
+      inc i
+
+    i = 0
+    for triangle in triangleNumbers(0..<len(correct)):
+      check triangle == correct[i]
+      inc i
+
   test "Prime Factors":
     check primeFactors(2) == @[2]
     check primeFactors(3) == @[3]
     check primeFactors(6) == @[2, 3]
     check primeFactors(12) == @[2, 2, 3]
     check primeFactors(13195) == @[5, 7, 13, 29]
+
+  test "Factors":
+    check factors(1) == @[1]
+
+    let
+      correct = @[1, 2, 4, 7, 14, 28]
+      f28 = factors(28)
+
+    check len(correct) == len(f28)
+    for f in f28:
+      check f in correct
 
   test "Is Palindrome":
     check isPalindrome(9009) == true

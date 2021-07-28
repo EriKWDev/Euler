@@ -2,7 +2,8 @@
 import
   tables,
   math,
-  macros
+  macros,
+  algorithm
 
 macro memoize*(e) =
   template memo(n, nT, returnT, procName, procBody) =
@@ -81,3 +82,14 @@ proc primeFactors*(n: int64): seq[int] {.memoize.}  =
     inc i
 
 proc primeFactors*(n: SomeInteger): seq[int] = primeFactors(n.int64)
+
+
+proc isPalindrome*(word: string): bool {.memoize.} =
+  let mid = len(word) div 2
+  for i in 0..mid:
+    if word[i] != word[high(word) - i]:
+      return false
+
+  return true
+
+proc isPalindrome*[T](n: T): bool = isPalindrome($n)

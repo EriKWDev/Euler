@@ -53,3 +53,15 @@ suite "Euler Utils Test Suite":
     check primeFactors(6) == @[2, 3]
     check primeFactors(12) == @[2, 2, 3]
     check primeFactors(13195) == @[5, 7, 13, 29]
+
+  test "Is Palindrome":
+    check isPalindrome(9009) == true
+
+    for i in 0..9:
+      check isPalindrome(i) == true
+
+    check isPalindrome(9008) == false
+    check isPalindrome(10002300001) == false
+    check isPalindrome("worddrow") == true
+    check isPalindrome("1234554321") == true
+    check isPalindrome("123454321") == true

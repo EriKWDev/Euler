@@ -20,6 +20,5 @@ proc main() =
   echo current
 
 
-
 when isMainModule:
   main()

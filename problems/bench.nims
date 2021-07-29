@@ -18,7 +18,7 @@ proc main() =
 
         files.add(&"'./{dirName}/build/{dirName}'")
 
-    var benchmarkCommand = &"hyperfine --warmup 2 --export-markdown TIMINGS.md "
+    var benchmarkCommand = &"hyperfine --warmup 2 --ignore-failure --export-markdown TIMINGS.md "
 
     for file in files:
       benchmarkCommand &= file & " "

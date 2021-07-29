@@ -2,10 +2,10 @@
 
 version       = "0.1.0"
 author        = "ErikWDev"
-description   = "Project euler 010"
+description   = "Project euler 020"
 license       = "MIT"
 srcDir        = "src"
-bin           = @["p010"]
+bin           = @["p020"]
 binDir        = "build"
 
 

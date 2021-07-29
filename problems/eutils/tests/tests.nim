@@ -47,6 +47,14 @@ suite "Euler Utils Test Suite":
       check prime == correct[i]
       inc i
 
+    i = 0
+    for prime in primeNumbers():
+      check prime == correct[i]
+      inc i
+
+      if i == high(correct):
+        break
+
   test "Triangle Number Generator":
     let correct = @[0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55]
 

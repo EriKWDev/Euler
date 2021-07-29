@@ -68,6 +68,17 @@ iterator primeNumbers*(range: Slice[int]): int =
   for i in range:
     yield primeNumber(i)
 
+iterator primeNumbers*(): int =
+  yield 2
+  yield 3
+  yield 5
+
+  var i = 7
+  while true:
+    if isPrime(i):
+      yield i
+
+    i += 2
 
 proc triangleNumber*(n: int): int {.memoize.}  =
   for i in 0..n:

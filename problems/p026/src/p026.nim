@@ -1,5 +1,5 @@
 
-import strformat, eutils, tables
+import eutils, tables
 
 iterator digits(n: int): int =
   var current = 10

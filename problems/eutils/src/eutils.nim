@@ -22,13 +22,13 @@ macro memoize*(e) =
   getAst(memo(n, nT, returnT, e.name(), e.body()))
 
 
-proc fibonacciNumber*(n: int): int {.memoize.} =
+proc fibonacciNumber*(n: int64): int64 {.memoize.} =
   if n <= 1:
-    return 1
+    return 1'i64
 
-  return fibonacciNumber(n - 2) + fibonacciNumber(n - 1)
+  return fibonacciNumber(n - 2'i64) + fibonacciNumber(n - 1'i64)
 
-iterator fibonacciNumbers*(range: Slice[int]): int =
+iterator fibonacciNumbers*(range: Slice[int]): int64 =
   for i in range:
     yield fibonacciNumber(i)
 
@@ -130,7 +130,7 @@ iterator choose*[T](a: openarray[T], num_choose: int): seq[T] =
       break
 
 
-proc factors*(n: int32): seq[int] {.memoize.} =
+proc factors*(n: int32, includeSelf = true): seq[int] =
   let pfs = primeFactors(n)
 
   var resultSet: IntSet
@@ -146,10 +146,16 @@ proc factors*(n: int32): seq[int] {.memoize.} =
 
       resultSet.incl(prod)
 
-  for n in resultSet.items():
-    result.add(n)
+  for f in resultSet.items():
+    if f == n:
+      if includeSelf:
+        result.add(f)
+      continue
 
-proc factors*(n: SomeInteger): seq[int] = factors(n.int32)
+    result.add(f)
+
+proc factors*(n: SomeInteger, includeSelf = true): seq[int] =
+  return factors(n.int32, includeSelf)
 
 
 proc isPalindrome*(word: string): bool {.memoize.} =

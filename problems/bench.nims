@@ -24,6 +24,7 @@ proc main() =
       benchmarkCommand &= file & " "
 
     exec benchmarkCommand
+    exec "nim ./clean.nims"
 
 when isMainModule:
   main()

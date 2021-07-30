@@ -68,6 +68,11 @@ iterator primeNumbers*(range: Slice[int]): int =
   for i in range:
     yield primeNumber(i)
 
+iterator primeNumbersInRange*(range: Slice[int]): int =
+  for i in range:
+    if isPrime(i):
+      yield i
+
 iterator primeNumbers*(): int =
   yield 2
   yield 3

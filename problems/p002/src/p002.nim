@@ -7,7 +7,7 @@ const roof = 4 * 10^6
 
 proc main() =
   var
-    sum = 0
+    sum = 0'i64
     i = 1
 
   while true:
